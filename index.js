@@ -3,6 +3,38 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 
+class Blog extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+      articles: []
+    }
+  }
+
+  componentDidMount(){
+    let promesa = fetch('https://jsonplaceholder.typicode.com/posts');
+
+    promesa.then(response => response.json()).then(data => {
+      this.setState({
+        articles: data
+      })
+    })
+  }
+
+  render(){
+    return(
+      <div>
+        {
+          this.state.articles.map((article)=>{
+            return <p>{article.title}</p>
+          })
+        }
+      </div>
+    );
+  }
+}
+
 class App extends Component {
   constructor() {
     super();
@@ -12,12 +44,10 @@ class App extends Component {
   }
 
   render() {
+    let nombre ="Eduardo"
     return (
       <div>
-        <Hello name={this.state.name} />
-        <p>
-          Start editing to see some magic happen :)
-        </p>
+        <Blog />
       </div>
     );
   }
